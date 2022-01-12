@@ -53,8 +53,8 @@ def get_lbdq(folder, file_list, braga_sens, metals_sens):
     factors = [1.645, 3.3, 10]
 
     for i in range(len(types)):
-        df[types[i]+"_Braga"] = factors[i] * braga_sens * df['vector']
-        df[types[i]+"_metals"] = factors[i] * metals_sens * df['vector']
+        df[types[i]+"_Braga"] = factors[i] * braga_sens + df['vector']
+        df[types[i]+"_metals"] = factors[i] * metals_sens + df['vector']
         
     # change col formats
     cols = df.columns.drop('element')
@@ -67,7 +67,7 @@ def get_lbdq(folder, file_list, braga_sens, metals_sens):
 #                     Calculate RMSEP                     #
 #---------------------------------------------------------#
 
-def get_rmsep(folder, file_list, lbdq):
+def get_rmsep(folder, file_list, lbdq, comps):
     
     print("RMSEP:")
     
@@ -186,7 +186,7 @@ def get_rmsep(folder, file_list, lbdq):
 #                   Calculate results                     #
 #---------------------------------------------------------#
 
-def get_results(sensitivities, instrument, atmosphere, n_range):
+def get_results(sensitivities, instrument, atmosphere, n_range, comps):
     
     print('Calculating for', instrument, atmosphere, n_range)
     
@@ -199,14 +199,14 @@ def get_results(sensitivities, instrument, atmosphere, n_range):
     
     metals_sens = sens_temp[sensitivities['method'] == 'metals']['sensitivity']
 
-    folder = fp+instrument+" calculations\\models\\"+atmosphere+"\\"+n_range+"\\"
+    folder = 'G:\\My Drive\\Darby Work\\Ytsma and Dyar 2021 (LOD paper)\\'+instrument+" calculations\\models\\"+atmosphere+"\\"+n_range+"\\"
     file_list = os.listdir(folder)
 
     # calculate lbdq
     lbdq = get_lbdq(folder, file_list, braga_sens, metals_sens)
 
     # calculate rmsep with lbdq results
-    rmsep = get_rmsep(folder, file_list, lbdq)
+    rmsep = get_rmsep(folder, file_list, lbdq, comps)
 
     # merge results
     df = pd.merge(lbdq, rmsep, how='outer', on='element')
