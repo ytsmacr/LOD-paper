@@ -1,4 +1,4 @@
-## *Calculations of Limits of Blank, Limits of Detection, and Limits of Quantification for Multivariate Analyses of Laser-Induced Breakdown Spectroscopy (LIBS) in Geological Materials*
+## *Calculations of and effects on quantitative limits for multivariate analyses of geological materials with laser-induced breakdown spectroscopy*
 ### Ytsma and Dyar 2022
 
 Calculations and figures for the above paper.
